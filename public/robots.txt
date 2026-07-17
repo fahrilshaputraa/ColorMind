@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://colormind.app/sitemap.xml
+Sitemap: https://colormind.web.id/sitemap.xml

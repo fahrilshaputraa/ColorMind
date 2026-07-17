@@ -117,7 +117,7 @@ export const ContentArea: React.FC = () => {
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
               </div>
               <div className="flex-1 bg-white rounded-md py-0.5 text-center text-[10px] text-[#a3a6af] font-mono overflow-hidden whitespace-nowrap text-ellipsis max-w-[400px] mx-auto select-none">
-                https://colormind.app/preview
+                https://colormind.web.id/preview
               </div>
             </div>
           )}
