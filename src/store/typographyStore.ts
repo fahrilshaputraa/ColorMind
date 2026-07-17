@@ -17,6 +17,7 @@ interface TypographyState {
   setTypeScaleRatio: (ratio: number) => void;
   setBaseFontSize: (size: number) => void;
   setCustomText: (text: string) => void;
+  reset: () => void;
 }
 
 const defaultHeadingFont: FontFamily = {
@@ -56,6 +57,17 @@ export const useTypographyStore = create<TypographyState>()(
       setTypeScaleRatio: (ratio) => set({ typeScaleRatio: ratio }),
       setBaseFontSize: (size) => set({ baseFontSize: size }),
       setCustomText: (text) => set({ customText: text }),
+
+      reset: () => {
+        set({
+          headingFont: defaultHeadingFont,
+          bodyFont: defaultBodyFont,
+          monoFont: defaultMonoFont,
+          typeScaleRatio: 1.250,
+          baseFontSize: 16,
+          customText: 'Interactive Design System Generator — buat color palette, pilih typography, atur spacing & radius, dan copy Tailwind classes langsung dari preview.',
+        });
+      },
     }),
     {
       name: 'colorpallet-typography',

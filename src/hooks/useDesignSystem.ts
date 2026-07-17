@@ -4,9 +4,9 @@ import { useSpacingStore } from '../store/spacingStore.ts';
 import type { DesignSystemTokens } from '../types/designSystem.ts';
 
 export function useDesignSystem(): DesignSystemTokens {
-  const { colors, shadeScale } = usePaletteStore();
+  const { colors, shadeScale, paperBg } = usePaletteStore();
   const { headingFont, bodyFont, monoFont, typeScaleRatio, baseFontSize } = useTypographyStore();
-  const { baseUnit, borderRadius, boxShadow } = useSpacingStore();
+  const { baseUnit, borderRadius, boxShadow, customRadius, setBorderRadius } = useSpacingStore();
 
   return {
     colors,
@@ -18,6 +18,9 @@ export function useDesignSystem(): DesignSystemTokens {
     baseFontSize,
     baseUnit,
     borderRadius,
+    customRadius,
+    paperBg,
     boxShadow,
+    setBorderRadius,
   };
 }

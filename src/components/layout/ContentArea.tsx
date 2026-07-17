@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useUIStore } from '../../store/uiStore';
+import { usePaletteStore } from '../../store/paletteStore';
 import type { ViewportSize } from '../../store/uiStore';
 import { Monitor, Tablet, Smartphone, Eye } from 'lucide-react';
 import { TemplateSelector } from '../content/TemplateSelector.tsx';
@@ -11,6 +12,7 @@ type ColorBlindMode = 'normal' | 'protanopia' | 'deuteranopia' | 'tritanopia' | 
 
 export const ContentArea: React.FC = () => {
   const { previewViewport, setPreviewViewport, activeTemplate } = useUIStore();
+  const paperBg = usePaletteStore((s) => s.paperBg);
   const [colorBlindMode, setColorBlindMode] = useState<ColorBlindMode>('normal');
 
   const viewports: { id: ViewportSize; icon: React.FC<any>; label: string }[] = [
@@ -124,8 +126,9 @@ export const ContentArea: React.FC = () => {
           <div
             style={{
               filter: colorBlindMode === 'normal' ? 'none' : `url(#${colorBlindMode})`,
+              backgroundColor: paperBg,
             }}
-            className={`flex-1 rounded-b-[24px] overflow-hidden border border-[#f2f2f3] transition-all duration-300 min-h-[500px] bg-white ${
+            className={`flex-1 rounded-b-[24px] overflow-hidden border border-[#f2f2f3] transition-all duration-300 min-h-[500px] ${
               previewViewport === 'desktop' ? 'rounded-t-[24px]' : ''
             }`}
           >

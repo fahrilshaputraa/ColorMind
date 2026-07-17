@@ -10,6 +10,7 @@ export const ColorPicker: React.FC = () => {
       {colors.map((color, index) => (
         <ColorSwatch
           key={index}
+          index={index}
           hex={color.hex}
           locked={color.locked}
           onToggleLock={() => toggleLockColor(index)}

@@ -11,5 +11,8 @@ export interface DesignSystemTokens {
   baseFontSize: number;
   baseUnit: number;
   borderRadius: Record<string, number>;
+  customRadius: number;
+  paperBg: string;
   boxShadow: Record<string, string>;
+  setBorderRadius: (key: string, value: number) => void;
 }

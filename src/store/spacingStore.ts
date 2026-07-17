@@ -14,6 +14,7 @@ interface SpacingState {
   setCustomRadius: (value: number) => void;
   setBoxShadow: (key: string, value: string) => void;
   setCustomShadow: (value: string) => void;
+  reset: () => void;
 }
 
 const defaultRadius = {
@@ -62,6 +63,16 @@ export const useSpacingStore = create<SpacingState>()(
           customShadow: value,
           boxShadow: { ...state.boxShadow, custom: value }
         })),
+
+      reset: () => {
+        set({
+          baseUnit: 8,
+          borderRadius: defaultRadius,
+          customRadius: 8,
+          boxShadow: defaultShadows,
+          customShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+        });
+      },
     }),
     {
       name: 'colorpallet-spacing',

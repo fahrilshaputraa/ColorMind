@@ -8,7 +8,7 @@ export const ShadeGenerator: React.FC = () => {
   const handleCopy = async (hex: string) => {
     try {
       await navigator.clipboard.writeText(hex);
-      toast.success(`Copied Hex: ${hex}`, {
+      toast.success(`Copied: ${hex}`, {
         style: {
           background: '#17191c',
           color: '#ffffff',
@@ -23,22 +23,16 @@ export const ShadeGenerator: React.FC = () => {
   const shadeKeys = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       {colors.map((color, colorIdx) => {
         const shades = shadeScale[colorIdx] || {};
         return (
-          <div key={colorIdx} className="flex flex-col gap-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-medium text-[#979799] flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color.hex }}></span>
-                Color {colorIdx + 1}
-              </span>
-              <span className="text-[9px] font-mono text-[#979799]">
-                {color.hex}
-              </span>
+          <div key={colorIdx} className="flex flex-col gap-1">
+            <div className="flex items-center gap-2 px-1">
+              <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: color.hex }} />
+              <span className="text-[10px] font-mono text-[#979799]">{color.hex}</span>
             </div>
-
-            <div className="flex items-center gap-0.5 overflow-x-auto pb-0.5 scrollbar-thin scrollbar-thumb-[#f2f2f3]">
+            <div className="flex gap-px overflow-hidden rounded-[12px]">
               {shadeKeys.map((key) => {
                 const hexVal = shades[key] || color.hex;
                 return (
@@ -47,11 +41,13 @@ export const ShadeGenerator: React.FC = () => {
                     onClick={() => handleCopy(hexVal)}
                     type="button"
                     style={{ backgroundColor: hexVal }}
-                    className="w-full h-6 min-w-[16px] rounded-sm transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer group relative"
-                    title={`color${colorIdx + 1}-${key}: ${hexVal}`}
+                    className="flex-1 h-7 cursor-pointer group relative transition-transform hover:scale-y-125"
+                    title={`${key}: ${hexVal}`}
                   >
-                    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-[#17191c] text-white text-[8px] font-medium py-0.5 px-1 rounded-[9999px] whitespace-nowrap z-50 pointer-events-none select-none font-mono">
-                      {key}: {hexVal}
+                    <span className="absolute inset-0 flex items-center justify-center text-[7px] font-mono font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                      style={{ color: parseInt(key) >= 500 ? '#ffffff' : '#17191c' }}
+                    >
+                      {key}
                     </span>
                   </button>
                 );

@@ -10,6 +10,7 @@ interface PaletteState {
   baseColor: string;
   shadeScale: Record<number, Record<string, string>>;
   preset: string | null;
+  paperBg: string;
   history: { colors: Color[]; baseColor: string; shadeScale: Record<number, Record<string, string>> }[];
   future: { colors: Color[]; baseColor: string; shadeScale: Record<number, Record<string, string>> }[];
 
@@ -20,9 +21,11 @@ interface PaletteState {
   updateColor: (index: number, hex: string) => void;
   setHarmonyMode: (mode: HarmonyMode) => void;
   loadPreset: (presetName: string, presetColors: string[]) => void;
+  setPaperBg: (hex: string) => void;
   undo: () => void;
   redo: () => void;
   saveHistory: () => void;
+  reset: () => void;
 }
 
 const defaultColors: Color[] = [
@@ -49,6 +52,7 @@ export const usePaletteStore = create<PaletteState>()(
       baseColor: '#3b82f6',
       shadeScale: initialShades,
       preset: null,
+      paperBg: '#ffffff',
       history: [],
       future: [],
 
@@ -139,6 +143,8 @@ export const usePaletteStore = create<PaletteState>()(
         });
       },
 
+      setPaperBg: (hex) => set({ paperBg: hex }),
+
       undo: () => {
         const { history, future, colors, baseColor, shadeScale } = get();
         if (history.length === 0) return;
@@ -170,6 +176,19 @@ export const usePaletteStore = create<PaletteState>()(
           future: remainingFuture,
         });
       },
+
+      reset: () => {
+        set({
+          colors: defaultColors,
+          harmonyMode: 'analogous',
+          baseColor: '#3b82f6',
+          shadeScale: initialShades,
+          preset: null,
+          paperBg: '#ffffff',
+          history: [],
+          future: [],
+        });
+      },
     }),
     {
       name: 'colorpallet-palette',
@@ -179,6 +198,7 @@ export const usePaletteStore = create<PaletteState>()(
         baseColor: state.baseColor,
         shadeScale: state.shadeScale,
         preset: state.preset,
+        paperBg: state.paperBg,
       }),
     }
   )

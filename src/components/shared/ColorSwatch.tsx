@@ -4,6 +4,7 @@ import { getContrastText } from '../../utils/contrast.ts';
 import { CopyButton } from './CopyButton.tsx';
 
 interface ColorSwatchProps {
+  index?: number;
   hex: string;
   locked: boolean;
   onToggleLock: () => void;
@@ -11,6 +12,7 @@ interface ColorSwatchProps {
 }
 
 export const ColorSwatch: React.FC<ColorSwatchProps> = ({
+  index: _index,
   hex,
   locked,
   onToggleLock,
@@ -20,12 +22,14 @@ export const ColorSwatch: React.FC<ColorSwatchProps> = ({
   const textContrastColor = getContrastText(hex);
 
   return (
-    <div className="flex items-center gap-2.5 p-2.5 bg-white border border-[#f2f2f3] rounded-[20px] transition-all hover:border-[#ececec]">
-      {/* Color block — compact inline */}
+    <div className={`flex items-stretch gap-0 bg-white border rounded-[20px] overflow-hidden transition-all ${
+      locked ? 'border-[#17191c]/20 opacity-80' : 'border-[#f2f2f3] hover:border-[#ececec]'
+    }`}>
+      {/* Color swatch — clickable to open picker */}
       <div
         onClick={() => colorInputRef.current?.click()}
         style={{ backgroundColor: hex }}
-        className="group relative w-10 h-10 rounded-[12px] cursor-pointer flex items-center justify-center transition-transform active:scale-[0.95] shrink-0"
+        className="group relative w-12 cursor-pointer flex items-center justify-center transition-transform active:scale-[0.95] shrink-0"
       >
         <input
           ref={colorInputRef}
@@ -34,22 +38,16 @@ export const ColorSwatch: React.FC<ColorSwatchProps> = ({
           onChange={(e) => onChangeHex(e.target.value)}
           className="absolute inset-0 opacity-0 w-0 h-0 pointer-events-none"
         />
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleLock();
-          }}
-          type="button"
+        <span
           style={{ color: textContrastColor }}
-          className="opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-          title={locked ? 'Unlock color' : 'Lock color'}
+          className="text-[9px] font-mono font-medium opacity-0 group-hover:opacity-100 transition-opacity select-none"
         >
-          {locked ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
-        </button>
+          PICK
+        </span>
       </div>
 
-      {/* Hex input + copy */}
-      <div className="flex-1 flex items-center gap-1.5 min-w-0">
+      {/* Right side: hex input + actions */}
+      <div className="flex-1 flex items-center gap-1.5 px-2.5 py-2 min-w-0">
         <input
           type="text"
           value={hex}
@@ -60,15 +58,24 @@ export const ColorSwatch: React.FC<ColorSwatchProps> = ({
             }
           }}
           placeholder="#000000"
-          className="flex-1 min-w-0 px-2 py-1.5 text-xs font-mono font-medium text-[#17191c] bg-[#fafafb] border border-[#f2f2f3] rounded-[16px] focus:outline-none focus:ring-1 focus:ring-[#17191c] focus:border-[#17191c] text-center"
+          className="flex-1 min-w-0 px-1.5 py-1 text-xs font-mono font-medium text-[#17191c] bg-transparent border-none focus:outline-none text-center"
         />
-        <CopyButton value={hex} showIconOnly={true} className="p-1.5 text-[#777b86] hover:bg-[#fafafb] rounded-[16px] border border-[#f2f2f3]" />
-      </div>
 
-      {/* Lock indicator when locked */}
-      {locked && (
-        <Lock className="w-3 h-3 text-[#979799] shrink-0" />
-      )}
+        <button
+          onClick={onToggleLock}
+          type="button"
+          className={`p-1 rounded-[9999px] transition-all cursor-pointer shrink-0 ${
+            locked
+              ? 'bg-[#17191c] text-white'
+              : 'text-[#979799] hover:text-[#17191c] hover:bg-[#f2f2f3]'
+          }`}
+          title={locked ? 'Unlock color' : 'Lock color'}
+        >
+          {locked ? <Lock className="w-3 h-3" /> : <Unlock className="w-3 h-3" />}
+        </button>
+
+        <CopyButton value={hex} showIconOnly={true} className="p-1 text-[#979799] hover:text-[#17191c] hover:bg-[#f2f2f3] rounded-[9999px] border-none" />
+      </div>
     </div>
   );
 };
