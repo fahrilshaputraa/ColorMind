@@ -1,122 +1,120 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useEffect } from 'react';
+import { AppLayout } from './components/layout/AppLayout.tsx';
+import { useTypographyStore } from './store/typographyStore.ts';
+import { usePaletteStore } from './store/paletteStore.ts';
+import { useSpacingStore } from './store/spacingStore.ts';
+import { BUNDLED_FONT_LIST } from './constants/fontList.ts';
+import { generateShadeScale } from './utils/shade.ts';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { headingFont, bodyFont, monoFont } = useTypographyStore();
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+  // Load design tokens from URL params on initialization
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    
+    // 1. Parse & Load Colors
+    const colorsParam = params.get('colors');
+    if (colorsParam) {
+      const hexList = colorsParam.split(',');
+      if (hexList.length === 5) {
+        const newColors = hexList.map((hex) => ({
+          hex: hex.startsWith('#') ? hex : `#${hex}`,
+          locked: false,
+        }));
+        
+        // Generate shadeScale for each loaded color
+        const newShades: Record<number, Record<string, string>> = {};
+        newColors.forEach((col, idx) => {
+          newShades[idx] = generateShadeScale(col.hex);
+        });
+        
+        usePaletteStore.setState({
+          colors: newColors,
+          shadeScale: newShades,
+          baseColor: newColors[0].hex,
+        });
+      }
+    }
+    
+    // 2. Parse & Load Fonts
+    const hfontParam = params.get('hfont');
+    if (hfontParam) {
+      const match = BUNDLED_FONT_LIST.find((f) => f.name.toLowerCase() === hfontParam.toLowerCase());
+      const fontObj = match || { name: hfontParam, category: 'sans-serif', weights: [400, 700], subsets: ['latin'] };
+      useTypographyStore.setState({ headingFont: fontObj });
+    }
+    
+    const bfontParam = params.get('bfont');
+    if (bfontParam) {
+      const match = BUNDLED_FONT_LIST.find((f) => f.name.toLowerCase() === bfontParam.toLowerCase());
+      const fontObj = match || { name: bfontParam, category: 'sans-serif', weights: [400, 700], subsets: ['latin'] };
+      useTypographyStore.setState({ bodyFont: fontObj });
+    }
 
-      <div className="ticks"></div>
+    const mfontParam = params.get('mfont');
+    if (mfontParam) {
+      const match = BUNDLED_FONT_LIST.find((f) => f.name.toLowerCase() === mfontParam.toLowerCase());
+      const fontObj = match || { name: mfontParam, category: 'monospace', weights: [400], subsets: ['latin'] };
+      useTypographyStore.setState({ monoFont: fontObj });
+    }
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+    // 3. Parse & Load Spacing
+    const baseUnitParam = params.get('baseunit');
+    if (baseUnitParam) {
+      const val = parseInt(baseUnitParam, 10);
+      if (!isNaN(val)) useSpacingStore.setState({ baseUnit: val });
+    }
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    const radiusParam = params.get('radius');
+    if (radiusParam) {
+      const val = parseInt(radiusParam, 10);
+      if (!isNaN(val)) {
+        useSpacingStore.setState({
+          customRadius: val,
+          borderRadius: {
+            none: 0,
+            sm: 2,
+            md: 4,
+            lg: 8,
+            xl: 12,
+            '2xl': 16,
+            full: 9999,
+            custom: val,
+          }
+        });
+      }
+    }
+  }, []);
+
+  // Dynamic Google Font Loader
+  useEffect(() => {
+    const families: string[] = [];
+    if (headingFont) families.push(headingFont.name);
+    if (bodyFont) families.push(bodyFont.name);
+    if (monoFont) families.push(monoFont.name);
+
+    if (families.length === 0) return;
+
+    // Build the query parameter string for Google Fonts v2 API
+    const fontString = families
+      .map((name) => `family=${name.replace(/ /g, '+')}:wght@300;400;500;700;900`)
+      .join('&');
+
+    const linkId = 'google-fonts-preview-styles';
+    let linkElement = document.getElementById(linkId) as HTMLLinkElement | null;
+
+    if (!linkElement) {
+      linkElement = document.createElement('link');
+      linkElement.id = linkId;
+      linkElement.rel = 'stylesheet';
+      document.head.appendChild(linkElement);
+    }
+
+    linkElement.href = `https://fonts.googleapis.com/css2?${fontString}&display=swap`;
+  }, [headingFont, bodyFont, monoFont]);
+
+  return <AppLayout />;
 }
 
-export default App
+export default App;
