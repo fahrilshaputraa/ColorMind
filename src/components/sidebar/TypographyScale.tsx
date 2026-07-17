@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTypographyStore } from '../../store/typographyStore';
 import { TYPE_SCALE_RATIOS, generateTypeScale } from '../../utils/typography.ts';
-import { Ruler } from 'lucide-react';
 
 export const TypographyScale: React.FC = () => {
   const { typeScaleRatio, setTypeScaleRatio, baseFontSize, setBaseFontSize } = useTypographyStore();
@@ -13,24 +12,18 @@ export const TypographyScale: React.FC = () => {
     { label: '3XL Heading Large', key: '3xl', size: scale['3xl'] },
     { label: '2XL Heading Medium', key: '2xl', size: scale['2xl'] },
     { label: 'XL Heading Small', key: 'xl', size: scale['xl'] },
-    { label: 'LG Subtitle / Large text', key: 'lg', size: scale['lg'] },
-    { label: 'Base Body text', key: 'base', size: scale.base },
-    { label: 'SM Captions / Small text', key: 'sm', size: scale.sm },
-    { label: 'XS Tags / Tiny labels', key: 'xs', size: scale.xs },
+    { label: 'LG Subtitle', key: 'lg', size: scale['lg'] },
+    { label: 'Base Body', key: 'base', size: scale.base },
+    { label: 'SM Caption', key: 'sm', size: scale.sm },
+    { label: 'XS Tag', key: 'xs', size: scale.xs },
   ];
 
   return (
-    <div className="flex flex-col gap-4 p-4 rounded-xl bg-white dark:bg-neutral-850/50 border border-neutral-200 dark:border-neutral-800/60 shadow-2xs text-left">
-      <div className="flex items-center gap-1.5 text-xs font-bold text-neutral-500 uppercase tracking-wider mb-1">
-        <Ruler className="w-4 h-4 text-violet-500" />
-        <span>Type Scale Config</span>
-      </div>
-
-      {/* Base Font Size Selector */}
+    <div className="flex flex-col gap-4 text-left">
       <div className="flex flex-col gap-1.5">
-        <div className="flex justify-between items-center text-xs font-semibold text-neutral-600 dark:text-neutral-350">
+        <div className="flex justify-between items-center text-xs font-medium text-[#17191c]">
           <span>Base Font Size</span>
-          <span className="font-mono bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded font-bold">
+          <span className="font-mono bg-[#f2f2f3] px-1.5 py-0.5 rounded-[16px] text-[11px]">
             {baseFontSize}px
           </span>
         </div>
@@ -41,19 +34,18 @@ export const TypographyScale: React.FC = () => {
           step="1"
           value={baseFontSize}
           onChange={(e) => setBaseFontSize(parseInt(e.target.value, 10))}
-          className="w-full h-1.5 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-violet-600"
+          className="w-full h-1.5 bg-[#f2f2f3] rounded-[9999px] appearance-none cursor-pointer accent-[#17191c]"
         />
       </div>
 
-      {/* Scale Ratio Selector */}
-      <div className="flex flex-col gap-1.5 mt-1">
-        <label className="text-xs font-semibold text-neutral-600 dark:text-neutral-350">
-          Scale Multiplier Ratio
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs font-medium text-[#17191c]">
+          Scale Ratio
         </label>
         <select
           value={typeScaleRatio}
           onChange={(e) => setTypeScaleRatio(parseFloat(e.target.value))}
-          className="w-full px-3 py-2 text-xs font-semibold text-neutral-850 dark:text-neutral-250 bg-white dark:bg-neutral-800/60 border border-neutral-255 dark:border-neutral-700/60 rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500 cursor-pointer"
+          className="w-full px-3 py-2 text-xs font-medium text-[#17191c] bg-white border border-[#f2f2f3] rounded-[16px] focus:outline-none focus:ring-1 focus:ring-[#17191c] focus:border-[#17191c] cursor-pointer"
         >
           {TYPE_SCALE_RATIOS.map((ratio) => (
             <option key={ratio.value} value={ratio.value}>
@@ -63,21 +55,20 @@ export const TypographyScale: React.FC = () => {
         </select>
       </div>
 
-      {/* Visual Hierarchy Preview List */}
-      <div className="flex flex-col gap-3 mt-4 border-t pt-4 border-neutral-100 dark:border-neutral-800/60">
-        <span className="text-[10px] uppercase font-bold text-neutral-400 dark:text-neutral-500 tracking-wider">
-          Calculated Scale Preview
+      <div className="flex flex-col gap-2.5 border-t pt-4 border-[#f2f2f3]">
+        <span className="text-[10px] uppercase font-medium text-[#979799] tracking-wider">
+          Scale Preview
         </span>
-        <div className="flex flex-col gap-3.5 mt-1">
+        <div className="flex flex-col gap-2">
           {scaleItems.map((item) => (
-            <div key={item.key} className="flex flex-col gap-1 border-b border-dashed pb-2 border-neutral-100 dark:border-neutral-850 last:border-0 last:pb-0">
-              <div className="flex items-center justify-between text-[10px] text-neutral-400 font-bold">
+            <div key={item.key} className="flex flex-col gap-0.5 border-b border-dashed pb-1.5 border-[#f2f2f3] last:border-0 last:pb-0">
+              <div className="flex items-center justify-between text-[10px] text-[#979799] font-medium">
                 <span>{item.label}</span>
-                <span className="font-mono text-violet-600 dark:text-violet-400">{item.size}px</span>
+                <span className="font-mono text-[#17191c]">{item.size}px</span>
               </div>
               <p
-                style={{ fontSize: `${item.size}px`, lineHeight: '1.25' }}
-                className="font-semibold text-neutral-800 dark:text-neutral-150 truncate leading-none mt-0.5"
+                style={{ fontSize: `${Math.min(item.size, 28)}px`, lineHeight: '1.25' }}
+                className="font-medium text-[#17191c] truncate leading-none"
               >
                 Grumpy wizards make toxic brew.
               </p>

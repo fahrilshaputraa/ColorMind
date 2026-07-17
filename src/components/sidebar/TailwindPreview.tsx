@@ -40,9 +40,9 @@ export const TailwindPreview: React.FC = () => {
       setCopied(true);
       toast.success('Copied config code to clipboard!', {
         style: {
-          background: '#1f2937',
+          background: '#17191c',
           color: '#ffffff',
-          borderRadius: '8px',
+          borderRadius: '9999px',
         },
       });
       setTimeout(() => setCopied(false), 2000);
@@ -53,33 +53,32 @@ export const TailwindPreview: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-4 text-left">
-      {/* Selector format */}
       <div className="flex items-center justify-between">
-        <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider flex items-center gap-1.5">
-          <Code2 className="w-4 h-4 text-violet-500" />
+        <span className="text-xs font-medium text-[#979799] uppercase tracking-wider flex items-center gap-1.5">
+          <Code2 className="w-4 h-4 text-[#777b86]" />
           <span>Tailwind & Figma config</span>
         </span>
-        
-        <div className="flex items-center gap-1 bg-neutral-100 dark:bg-neutral-800 p-0.5 rounded-lg border border-neutral-200 dark:border-neutral-750 font-sans">
+
+        <div className="flex items-center gap-1 bg-[#f2f2f3] p-0.5 rounded-[9999px] font-sans">
           <button
             onClick={() => setConfigFormat('v4')}
             type="button"
-            className={`px-2 py-1 rounded text-[10px] font-bold cursor-pointer transition-all ${
+            className={`px-2 py-1 rounded-[9999px] text-[10px] font-medium cursor-pointer transition-all ${
               configFormat === 'v4'
-                ? 'bg-white dark:bg-neutral-700 text-violet-600 dark:text-violet-300 shadow-xs'
-                : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-400'
+                ? 'bg-white text-[#17191c]'
+                : 'text-[#979799] hover:text-[#17191c]'
             }`}
           >
             v4 CSS
           </button>
-          
+
           <button
             onClick={() => setConfigFormat('v3')}
             type="button"
-            className={`px-2 py-1 rounded text-[10px] font-bold cursor-pointer transition-all ${
+            className={`px-2 py-1 rounded-[9999px] text-[10px] font-medium cursor-pointer transition-all ${
               configFormat === 'v3'
-                ? 'bg-white dark:bg-neutral-700 text-violet-600 dark:text-violet-300 shadow-xs'
-                : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-400'
+                ? 'bg-white text-[#17191c]'
+                : 'text-[#979799] hover:text-[#17191c]'
             }`}
           >
             v3 JS
@@ -88,10 +87,10 @@ export const TailwindPreview: React.FC = () => {
           <button
             onClick={() => setConfigFormat('figma')}
             type="button"
-            className={`px-2 py-1 rounded text-[10px] font-bold cursor-pointer transition-all ${
+            className={`px-2 py-1 rounded-[9999px] text-[10px] font-medium cursor-pointer transition-all ${
               configFormat === 'figma'
-                ? 'bg-white dark:bg-neutral-700 text-violet-600 dark:text-violet-300 shadow-xs'
-                : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-400'
+                ? 'bg-white text-[#17191c]'
+                : 'text-[#979799] hover:text-[#17191c]'
             }`}
           >
             Figma JSON
@@ -99,24 +98,21 @@ export const TailwindPreview: React.FC = () => {
         </div>
       </div>
 
-      {/* Code Area Wrapper */}
-      <div className="relative group rounded-xl overflow-hidden border border-neutral-250 dark:border-neutral-800/80 bg-neutral-900 shadow-lg">
-        {/* Copy Floating Button */}
+      <div className="relative group rounded-[24px] overflow-hidden border border-[#f2f2f3] bg-[#17191c]">
         <button
           onClick={handleCopyAll}
           type="button"
-          className="absolute top-3 right-3 p-2 rounded-lg bg-white/10 hover:bg-white/20 active:bg-white/35 transition-colors cursor-pointer text-white/95"
+          className="absolute top-3 right-3 p-2 rounded-[9999px] bg-white/10 hover:bg-white/20 active:bg-white/35 transition-colors cursor-pointer text-white/95"
           title="Copy full code"
         >
-          {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Clipboard className="w-4 h-4" />}
+          {copied ? <Check className="w-4 h-4 text-[#fbe1d1]" /> : <Clipboard className="w-4 h-4" />}
         </button>
 
-        {/* Monospaced code output */}
-        <pre className="p-4 overflow-x-auto text-[10px] font-mono leading-relaxed text-neutral-300 max-h-[350px] custom-scrollbar">
+        <pre className="p-4 overflow-x-auto text-[10px] font-mono leading-relaxed text-[#fafafb] max-h-[350px] custom-scrollbar">
           <code>{getOutputCode()}</code>
         </pre>
       </div>
-      <p className="text-[10px] text-neutral-400 leading-normal font-semibold">
+      <p className="text-[10px] text-[#979799] leading-normal font-normal">
         *Klik tombol salin di atas untuk meng-copy seluruh token design system dan meletakkannya di project Anda.
       </p>
     </div>

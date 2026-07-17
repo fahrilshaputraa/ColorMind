@@ -69,6 +69,7 @@ export const usePaletteStore = create<PaletteState>()(
       },
 
       generatePalette: () => {
+        get().saveHistory();
         const { baseColor, harmonyMode, colors } = get();
         const generated = generateHarmony(baseColor, harmonyMode);
         

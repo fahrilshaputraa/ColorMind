@@ -90,4 +90,14 @@ export const COMMUNITY_PRESETS: CommunityPreset[] = [
     radius: 8,
     tags: ['High contrast', 'Creative', 'Bold'],
   },
+  {
+    id: 'ease-health',
+    name: 'Ease Health — Botanical Greenhouse',
+    colors: ['#0f3e17', '#e1f4df', '#b6ced5', '#b1dbb8', '#cfe7d3'],
+    headingFont: 'Cormorant Garamond',
+    bodyFont: 'Inter',
+    baseUnit: 8,
+    radius: 14,
+    tags: ['Healthcare', 'Botanical', 'Serif', 'Light'],
+  },
 ];

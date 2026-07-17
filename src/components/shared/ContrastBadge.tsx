@@ -18,19 +18,19 @@ export const ContrastBadge: React.FC<ContrastBadgeProps> = ({
   const getBadgeStyles = () => {
     if (aaaNormal) {
       return {
-        bg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+        bg: 'bg-[#f2f2f3] text-[#17191c] border-[#ececec]',
         text: 'AAA Pass',
         icon: ShieldCheck,
       };
     } else if (aaNormal) {
       return {
-        bg: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+        bg: 'bg-[#fafafb] text-[#17191c] border-[#f2f2f3]',
         text: 'AA Pass',
         icon: ShieldCheck,
       };
     } else {
       return {
-        bg: 'bg-rose-50 text-rose-700 border-rose-200',
+        bg: 'bg-[#fbe1d1] text-[#5d2a1a] border-[#fbe1d1]',
         text: 'Contrast Low',
         icon: ShieldAlert,
       };
@@ -43,7 +43,7 @@ export const ContrastBadge: React.FC<ContrastBadgeProps> = ({
   if (size === 'sm') {
     return (
       <span
-        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold border ${badge.bg}`}
+        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[9999px] text-[10px] font-medium border ${badge.bg}`}
         title={`Contrast Ratio: ${ratio}:1`}
       >
         <span>{ratio}:1</span>
@@ -54,7 +54,7 @@ export const ContrastBadge: React.FC<ContrastBadgeProps> = ({
 
   return (
     <div
-      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${badge.bg}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[9999px] text-xs font-medium border ${badge.bg}`}
       title={`WCAG contrast check for text: ${textHex} on bg: ${bgHex}`}
     >
       <Icon className="w-3.5 h-3.5" />

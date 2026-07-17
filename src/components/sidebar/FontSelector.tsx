@@ -50,44 +50,44 @@ export const FontSelector: React.FC = () => {
   return (
     <div className="flex flex-col gap-4">
       {/* Target Font Slot Toggle */}
-      <div className="flex flex-col gap-1.5 bg-neutral-100 dark:bg-neutral-800/40 p-1.5 rounded-xl border border-neutral-200 dark:border-neutral-700/60 shadow-inner">
-        <span className="text-[10px] uppercase font-bold text-neutral-400 dark:text-neutral-500 tracking-wider ml-1">
+      <div className="flex flex-col gap-1.5 bg-[#f2f2f3] p-1.5 rounded-[16px] border border-[#f2f2f3]">
+        <span className="text-[10px] uppercase font-medium text-[#979799] tracking-wider ml-1">
           Apply Font To:
         </span>
         <div className="flex items-center gap-1 mt-0.5">
           <button
             onClick={() => setTargetSlot('heading')}
             type="button"
-            className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+            className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded-[9999px] transition-all cursor-pointer ${
               targetSlot === 'heading'
-                ? 'bg-white dark:bg-neutral-700 text-violet-600 dark:text-violet-300 shadow-xs'
-                : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-800'
+                ? 'bg-white text-[#17191c]'
+                : 'text-[#979799] hover:text-[#17191c]'
             }`}
           >
             <Heading className="w-3.5 h-3.5" />
             <span>Heading</span>
           </button>
-          
+
           <button
             onClick={() => setTargetSlot('body')}
             type="button"
-            className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+            className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded-[9999px] transition-all cursor-pointer ${
               targetSlot === 'body'
-                ? 'bg-white dark:bg-neutral-700 text-violet-600 dark:text-violet-300 shadow-xs'
-                : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-800'
+                ? 'bg-white text-[#17191c]'
+                : 'text-[#979799] hover:text-[#17191c]'
             }`}
           >
             <FileText className="w-3.5 h-3.5" />
             <span>Body</span>
           </button>
-          
+
           <button
             onClick={() => setTargetSlot('mono')}
             type="button"
-            className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+            className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded-[9999px] transition-all cursor-pointer ${
               targetSlot === 'mono'
-                ? 'bg-white dark:bg-neutral-700 text-violet-600 dark:text-violet-300 shadow-xs'
-                : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-800'
+                ? 'bg-white text-[#17191c]'
+                : 'text-[#979799] hover:text-[#17191c]'
             }`}
           >
             <Code className="w-3.5 h-3.5" />
@@ -98,13 +98,13 @@ export const FontSelector: React.FC = () => {
 
       {/* Search Input */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a3a6af]" />
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search google fonts..."
-          className="w-full pl-9 pr-4 py-2 text-xs font-medium text-neutral-800 dark:text-neutral-100 bg-white dark:bg-neutral-800/40 border border-neutral-200 dark:border-neutral-700/60 rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500 shadow-2xs"
+          className="w-full pl-9 pr-4 py-2 text-xs font-medium text-[#17191c] bg-white border border-[#f2f2f3] rounded-[16px] focus:outline-none focus:ring-1 focus:ring-[#17191c] focus:border-[#17191c] placeholder-[#a3a6af]"
         />
       </div>
 
@@ -117,10 +117,10 @@ export const FontSelector: React.FC = () => {
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
               type="button"
-              className={`px-3 py-1 rounded-full text-[10px] font-bold border whitespace-nowrap cursor-pointer transition-all ${
+              className={`px-3 py-1 rounded-[9999px] text-[10px] font-medium border whitespace-nowrap cursor-pointer transition-all ${
                 isActive
-                  ? 'bg-violet-100 dark:bg-violet-900/50 border-violet-300 dark:border-violet-850 text-violet-750 dark:text-violet-300'
-                  : 'bg-white dark:bg-neutral-850/50 border-neutral-200 dark:border-neutral-800/60 text-neutral-500 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800'
+                  ? 'bg-[#17191c] border-[#17191c] text-white'
+                  : 'bg-white border-[#f2f2f3] text-[#979799] hover:bg-[#fafafb]'
               }`}
             >
               {cat.label}
@@ -129,21 +129,21 @@ export const FontSelector: React.FC = () => {
         })}
       </div>
 
-      {/* Selected fonts indicator info */}
-      <div className="flex flex-col gap-1 text-[10px] text-neutral-400 dark:text-neutral-500 font-semibold px-1 mt-1">
+      {/* Selected fonts indicator */}
+      <div className="flex flex-col gap-1 text-[10px] text-[#979799] font-normal px-1 mt-1">
         <div className="flex justify-between">
-          <span>Heading: <strong className="text-neutral-600 dark:text-neutral-350">{headingFont?.name}</strong></span>
-          <span>Body: <strong className="text-neutral-600 dark:text-neutral-350">{bodyFont?.name}</strong></span>
+          <span>Heading: <strong className="text-[#17191c]">{headingFont?.name}</strong></span>
+          <span>Body: <strong className="text-[#17191c]">{bodyFont?.name}</strong></span>
         </div>
       </div>
 
       {/* Font list pane */}
-      <div className="max-h-[300px] overflow-y-auto border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-850/20 divide-y divide-neutral-150 dark:divide-neutral-800/50 custom-scrollbar">
+      <div className="max-h-[300px] overflow-y-auto border border-[#f2f2f3] rounded-[24px] bg-white divide-y divide-[#f2f2f3] custom-scrollbar">
         {isLoading && (
-          <div className="p-10 text-center text-xs text-neutral-400">Loading Google Fonts...</div>
+          <div className="p-10 text-center text-xs text-[#979799]">Loading Google Fonts...</div>
         )}
         {!isLoading && filteredFonts.length === 0 && (
-          <div className="p-10 text-center text-xs text-neutral-400">No fonts found</div>
+          <div className="p-10 text-center text-xs text-[#979799]">No fonts found</div>
         )}
         {!isLoading &&
           filteredFonts.map((font) => {
@@ -158,25 +158,25 @@ export const FontSelector: React.FC = () => {
                 key={font.name}
                 onClick={() => handleSelectFont(font)}
                 type="button"
-                className={`w-full flex items-center justify-between px-3.5 py-3.5 text-left cursor-pointer transition-all duration-200 hover:bg-neutral-50 dark:hover:bg-neutral-800/30 ${
-                  isAppliedToTarget ? 'bg-violet-50/20 dark:bg-violet-950/10' : ''
+                className={`w-full flex items-center justify-between px-3.5 py-3.5 text-left cursor-pointer transition-all duration-200 hover:bg-[#fafafb] ${
+                  isAppliedToTarget ? 'bg-[#fafafb]' : ''
                 }`}
               >
                 <div className="flex flex-col gap-0.5">
-                  <span className="text-sm font-semibold text-neutral-850 dark:text-neutral-150">
+                  <span className="text-sm font-medium text-[#17191c]">
                     {font.name}
                   </span>
-                  <span className="text-[9px] uppercase tracking-wider font-bold text-neutral-400 dark:text-neutral-500">
-                    {font.category} • {font.weights.length} weights
+                  <span className="text-[9px] uppercase tracking-wider font-medium text-[#979799]">
+                    {font.category} &bull; {font.weights.length} weights
                   </span>
                 </div>
 
                 {isAppliedToTarget ? (
-                  <span className="w-5 h-5 rounded-full bg-violet-100 dark:bg-violet-950 flex items-center justify-center border border-violet-250 dark:border-violet-800">
-                    <Check className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
+                  <span className="w-5 h-5 rounded-[9999px] bg-[#17191c] flex items-center justify-center">
+                    <Check className="w-3.5 h-3.5 text-white" />
                   </span>
                 ) : isAppliedElsewhere ? (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 font-bold border border-neutral-200 dark:border-neutral-700/50">
+                  <span className="text-[9px] px-1.5 py-0.5 rounded-[9999px] bg-[#f2f2f3] text-[#979799] font-medium">
                     {headingFont?.name === font.name ? 'H' : bodyFont?.name === font.name ? 'B' : 'M'}
                   </span>
                 ) : null}

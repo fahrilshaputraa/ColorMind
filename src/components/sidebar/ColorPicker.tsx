@@ -12,7 +12,6 @@ export const ColorPicker: React.FC = () => {
           key={index}
           hex={color.hex}
           locked={color.locked}
-          index={index}
           onToggleLock={() => toggleLockColor(index)}
           onChangeHex={(hex) => updateColor(index, hex)}
         />
