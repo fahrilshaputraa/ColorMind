@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Color, HarmonyMode } from '../types/palette.ts';
-import { generateHarmony, hslToHex } from '../utils/color.ts';
+import { generateHarmony, hslToHex, hexToHsl } from '../utils/color.ts';
+import { COMMUNITY_PRESETS } from '../constants/community.ts';
 import { generateShadeScale } from '../utils/shade.ts';
 
 interface PaletteState {
@@ -150,32 +151,18 @@ export const usePaletteStore = create<PaletteState>()(
         get().saveHistory();
         const { colors } = get();
 
-        // Pick a random hue family (0-359)
-        const baseHue = Math.floor(Math.random() * 360);
+        // Pick a random community preset as structural baseline
+        const preset = COMMUNITY_PRESETS[Math.floor(Math.random() * COMMUNITY_PRESETS.length)];
+        const presetHsls = preset.colors.map(hexToHsl);
 
-        // Derived hues: nearby analogous + one contrasting accent
-        const hue1 = (baseHue + 20) % 360;
-        const hue2 = (baseHue - 15 + 360) % 360;
-        const hue3 = (baseHue + 40) % 360;
-        const accentHue = (baseHue + 170 + Math.floor(Math.random() * 20)) % 360;
-
-        // Dark anchor (like #0f3e17): deep, saturated
-        const darkHue = baseHue;
-        const darkSat = 45 + Math.floor(Math.random() * 30); // 45-74
-        const darkLig = 12 + Math.floor(Math.random() * 10); // 12-21
-
-        // Light tints (like #e1f4df): high lightness, low-mid saturation
-        const lightTints = [hue1, hue2, hue3, accentHue].map((h) => {
-          const s = 20 + Math.floor(Math.random() * 35); // 20-54
-          const l = 75 + Math.floor(Math.random() * 16); // 75-90
-          return hslToHex(h, s, l);
-        });
-
-        const palette = [hslToHex(darkHue, darkSat, darkLig), ...lightTints];
+        // Shift all hues by a random offset (preserves relative hue relationships)
+        const hueShift = Math.floor(Math.random() * 360);
 
         const newColors = colors.map((col, idx) => {
           if (col.locked) return col;
-          return { hex: palette[idx] || col.hex, locked: false };
+          const src = presetHsls[idx % presetHsls.length];
+          const newH = (src.h + hueShift) % 360;
+          return { hex: hslToHex(newH, src.s, src.l), locked: false };
         });
 
         const newShades: Record<number, Record<string, string>> = {};
@@ -183,7 +170,7 @@ export const usePaletteStore = create<PaletteState>()(
           newShades[idx] = generateShadeScale(col.hex);
         });
 
-        set({ baseColor: palette[0], colors: newColors, shadeScale: newShades, preset: null });
+        set({ baseColor: newColors[0].hex, colors: newColors, shadeScale: newShades, preset: null });
       },
 
       undo: () => {
