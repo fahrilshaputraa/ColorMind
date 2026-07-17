@@ -26,7 +26,7 @@ export const AppLayout: React.FC = () => {
         
         if (cached && cachedTime) {
           const age = Date.now() - parseInt(cachedTime, 10);
-          if (age < 15 * 60 * 1000) { // 15 minutes cache
+          if (age < 1 * 60 * 1000) { // 1 minute cache
             setStars(parseInt(cached, 10));
             return;
           }
@@ -40,10 +40,20 @@ export const AppLayout: React.FC = () => {
             setStars(count);
             localStorage.setItem('colormind-github-stars', count.toString());
             localStorage.setItem('colormind-github-stars-time', Date.now().toString());
+            return;
           }
+        }
+
+        // If fetch fails (e.g. rate limit), fallback to cached value
+        if (cached) {
+          setStars(parseInt(cached, 10));
         }
       } catch (err) {
         console.error('Failed to fetch github stars:', err);
+        const cached = localStorage.getItem('colormind-github-stars');
+        if (cached) {
+          setStars(parseInt(cached, 10));
+        }
       }
     };
 
