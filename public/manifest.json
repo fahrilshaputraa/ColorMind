@@ -1,16 +1,20 @@
 {
   "short_name": "ColorMind",
-  "name": "ColorMind - Interactive Design System Generator",
+  "name": "ColorMind — Interactive Design System Generator",
+  "description": "Generate, preview, and export complete design systems in seconds. Color palettes, typography scales, spacing, and Tailwind CSS config.",
+  "id": "https://colormind.app",
+  "scope": "/",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#0f3e17",
+  "categories": ["design", "developer tools", "utilities"],
   "icons": [
     {
       "src": "/favicon.svg",
       "type": "image/svg+xml",
       "sizes": "any"
     }
-  ],
-  "start_url": "/",
-  "background_color": "#ffffff",
-  "theme_color": "#4f46e5",
-  "display": "standalone",
-  "orientation": "portrait"
+  ]
 }
