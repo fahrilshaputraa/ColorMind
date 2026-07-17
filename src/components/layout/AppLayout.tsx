@@ -11,7 +11,7 @@ import { CommunityGallery } from '../sidebar/CommunityGallery.tsx';
 
 export const AppLayout: React.FC = () => {
   const { sidebarOpen, toggleSidebar } = useUIStore();
-  const { generatePalette, undo, redo, history, future, colors } = usePaletteStore();
+  const { randomizeColors, undo, redo, history, future, colors } = usePaletteStore();
   const { headingFont, bodyFont } = useTypographyStore();
   const { baseUnit } = useSpacingStore();
 
@@ -234,7 +234,7 @@ export const AppLayout: React.FC = () => {
 
           {/* Random generator — filled pill button */}
           <button
-            onClick={generatePalette}
+            onClick={randomizeColors}
             type="button"
             className="flex items-center gap-2 px-5 py-2 rounded-[9999px] bg-[#17191c] text-white text-xs font-medium transition-all cursor-pointer border-none font-sans"
           >

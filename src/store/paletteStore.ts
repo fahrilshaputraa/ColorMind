@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Color, HarmonyMode } from '../types/palette.ts';
-import { generateHarmony } from '../utils/color.ts';
+import { generateHarmony, hslToHex } from '../utils/color.ts';
 import { generateShadeScale } from '../utils/shade.ts';
 
 interface PaletteState {
@@ -22,6 +22,7 @@ interface PaletteState {
   setHarmonyMode: (mode: HarmonyMode) => void;
   loadPreset: (presetName: string, presetColors: string[]) => void;
   setPaperBg: (hex: string) => void;
+  randomizeColors: () => void;
   undo: () => void;
   redo: () => void;
   saveHistory: () => void;
@@ -144,6 +145,46 @@ export const usePaletteStore = create<PaletteState>()(
       },
 
       setPaperBg: (hex) => set({ paperBg: hex }),
+
+      randomizeColors: () => {
+        get().saveHistory();
+        const { colors } = get();
+
+        // Pick a random hue family (0-359)
+        const baseHue = Math.floor(Math.random() * 360);
+
+        // Derived hues: nearby analogous + one contrasting accent
+        const hue1 = (baseHue + 20) % 360;
+        const hue2 = (baseHue - 15 + 360) % 360;
+        const hue3 = (baseHue + 40) % 360;
+        const accentHue = (baseHue + 170 + Math.floor(Math.random() * 20)) % 360;
+
+        // Dark anchor (like #0f3e17): deep, saturated
+        const darkHue = baseHue;
+        const darkSat = 45 + Math.floor(Math.random() * 30); // 45-74
+        const darkLig = 12 + Math.floor(Math.random() * 10); // 12-21
+
+        // Light tints (like #e1f4df): high lightness, low-mid saturation
+        const lightTints = [hue1, hue2, hue3, accentHue].map((h) => {
+          const s = 20 + Math.floor(Math.random() * 35); // 20-54
+          const l = 75 + Math.floor(Math.random() * 16); // 75-90
+          return hslToHex(h, s, l);
+        });
+
+        const palette = [hslToHex(darkHue, darkSat, darkLig), ...lightTints];
+
+        const newColors = colors.map((col, idx) => {
+          if (col.locked) return col;
+          return { hex: palette[idx] || col.hex, locked: false };
+        });
+
+        const newShades: Record<number, Record<string, string>> = {};
+        newColors.forEach((col, idx) => {
+          newShades[idx] = generateShadeScale(col.hex);
+        });
+
+        set({ baseColor: palette[0], colors: newColors, shadeScale: newShades, preset: null });
+      },
 
       undo: () => {
         const { history, future, colors, baseColor, shadeScale } = get();
